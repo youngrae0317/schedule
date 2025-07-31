@@ -23,7 +23,6 @@ public class ScheduleResponseDto {
         this.name = schedule.getName();
         this.createdAt = schedule.getCreatedAt().toString();
         this.modifiedAt = schedule.getModifiedAt().toString();
-
     }
 
 }

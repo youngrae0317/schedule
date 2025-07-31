@@ -5,9 +5,11 @@ import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Entity.Schedule;
 import org.example.schedule.Repository.ScheduleRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -38,6 +40,21 @@ public class ScheduleService {
         }
 
         return schedules.stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
+    }
+
+    public ScheduleResponseDto getScheduleById(Long id) {
+        // ID를 기준으로 일정을 Optional 객체로 받는다.
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+
+        // isPresent 메소드를 통해 존재하는지 확인하고 있으면 응답 Dto로 반환, 아니면 예외 처리.
+        if (optionalSchedule.isPresent()) {
+            Schedule schedule = optionalSchedule.get();
+            return new ScheduleResponseDto(schedule);
+        } else {
+            throw new IllegalArgumentException("Schedule with id " + id + " does not exist");
+        }
+
+
     }
 
 }
