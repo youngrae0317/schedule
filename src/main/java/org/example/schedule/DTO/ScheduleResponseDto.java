@@ -26,6 +26,4 @@ public class ScheduleResponseDto {
 
     }
 
-    public ScheduleResponseDto(Long id, String title, String contents, String name, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-    }
 }
