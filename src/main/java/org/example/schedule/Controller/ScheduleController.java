@@ -5,10 +5,9 @@ import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Service.ScheduleService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +18,11 @@ public class ScheduleController {
     @PostMapping("/schedules")
     public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
         return scheduleService.createSchedule(scheduleRequestDto);
+    }
+
+    @GetMapping("/schedules")
+    public List<ScheduleResponseDto> getSchedules(@RequestParam(required = false) String name) {
+        return scheduleService.getSchedules(name);
     }
 
 
