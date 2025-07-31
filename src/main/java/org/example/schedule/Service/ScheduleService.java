@@ -7,6 +7,9 @@ import org.example.schedule.Entity.Schedule;
 import org.example.schedule.Repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class ScheduleService {
@@ -23,6 +26,18 @@ public class ScheduleService {
         // 반환 받은 saveSchedule 객체를 사용하여 응답 DTO 생성
         return new ScheduleResponseDto(saveSchedule);
 
+    }
+
+    public List<ScheduleResponseDto> getSchedules(String name) {
+        List<Schedule> schedules;
+
+        if (name == null) {
+            schedules = scheduleRepository.findAllByOrderByModifiedAtDesc();
+        } else {
+            schedules = scheduleRepository.findAllByNameOrderByModifiedAtDesc(name);
+        }
+
+        return schedules.stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
     }
 
 }
