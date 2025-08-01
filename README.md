@@ -128,19 +128,61 @@
 
 ---
 
+---
+
+### (6) 댓글 생성
+
+| Method   | Endpoint          | Description | Parameters       | Status Code |
+|:--- |:--- |:--- |:--- |:--- |
+| `POST` | `/schedules/{id}/comments` | 댓글 생성   | Path:<br/>- `id` | `201 CREATED`    |
+
+- **Request Body**:
+  ```
+  {
+    "contents": "string",
+    "name": "string",
+    "password": "string"
+  }
+  ```
+- **Response**:
+  ```
+  {
+    "id": long,
+    "contents": "string",
+    "name": "string",
+    "createdAt": "string",
+    "modifiedAt": "string"
+  }
+  ```
+  
+---
 <br>
 
 ## 2. ERD
 ![schedules.png](schedules.png)
 
-```
+#### Schedule (일정)
+```sql
 CREATE TABLE `Schedule` (
     `id`         BIGINT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `password`   VARCHAR(100)   NOT NULL,
+    `password`   VARCHAR(255)   NOT NULL,
     `title`      VARCHAR(255)   NOT NULL,
     `contents`   TEXT           NOT NULL,
-    `name`       VARCHAR(100)   NOT NULL,
+    `name`       VARCHAR(255)   NOT NULL,
     `createdAt`  DATETIME       NOT NULL,
     `modifiedAt` DATETIME       NOT NULL
 );
 ```
+
+#### Comment (댓글)
+```sql
+CREATE TABLE `Comment` (
+    `id`          BIGINT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `schedule_id` BIGINT         NOT NULL,
+    `contents`    TEXT           NOT NULL,
+    `name`        VARCHAR(255)   NOT NULL,
+    `password`    VARCHAR(255)   NOT NULL,
+    `createdAt`   DATETIME       NOT NULL,
+    `modifiedAt`  DATETIME       NOT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES Schedule(id)
+);
