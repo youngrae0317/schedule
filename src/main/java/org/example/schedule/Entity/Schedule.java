@@ -3,6 +3,7 @@ package org.example.schedule.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.Entity.BaseEntity;
 
 @Entity
@@ -37,5 +38,10 @@ public class Schedule extends BaseEntity {
         this.contents = contents;
         this.name = name;
         this.password = password;
+    }
+
+    public void updateSchedule(ScheduleRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.name = requestDto.getName();
     }
 }

@@ -7,6 +7,7 @@ import org.example.schedule.Entity.Schedule;
 import org.example.schedule.Repository.ScheduleRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,8 +54,28 @@ public class ScheduleService {
         } else {
             throw new IllegalArgumentException("Schedule with id " + id + " does not exist");
         }
-
-
     }
 
+    @Transactional
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto) {
+        // ID로 일정을 Optional 객체로 받기
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+
+        // 해당 id에 대한 일정이 있는지 확인, 없으면 예외 발생
+        if (!optionalSchedule.isPresent()) {
+            throw new IllegalArgumentException("Schedule with id " + id + " does not exist");
+        }
+
+        // 일정이 존재하면 객체를 가져옴
+        Schedule schedule = optionalSchedule.get();
+
+        // 비밀번호 확인 로직
+        if (!schedule.getPassword().equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+
+        schedule.updateSchedule(requestDto);
+
+        return new ScheduleResponseDto(schedule);
+    }
 }
