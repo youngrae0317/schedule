@@ -5,6 +5,7 @@ import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Entity.Schedule;
 import org.example.schedule.Repository.ScheduleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,5 +78,20 @@ public class ScheduleService {
         schedule.updateSchedule(requestDto);
 
         return new ScheduleResponseDto(schedule);
+    }
+
+    public void deleteScheduleById(Long id, ScheduleRequestDto requestDto) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+        if (!optionalSchedule.isPresent()) {
+            throw new IllegalArgumentException("Schedule with id " + id + " does not exist");
+        }
+
+        Schedule schedule = optionalSchedule.get();
+
+        if (!schedule.getPassword().equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+
+        scheduleRepository.delete(schedule);
     }
 }

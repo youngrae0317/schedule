@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Service.ScheduleService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,14 @@ public class ScheduleController {
     @PutMapping("/schedules/{id}")
     public ScheduleResponseDto updateSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto, @PathVariable Long id) {
         return scheduleService.updateSchedule(id, scheduleRequestDto);
+    }
+
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<String> deleteSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto, @PathVariable Long id) {
+        scheduleService.deleteScheduleById(id, scheduleRequestDto);
+
+        return ResponseEntity.ok("일정이 삭제되었습니다.");
+
     }
 
 }
