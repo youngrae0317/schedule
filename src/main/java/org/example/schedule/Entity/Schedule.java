@@ -6,10 +6,16 @@ import lombok.NoArgsConstructor;
 import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.Entity.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
 public class Schedule extends BaseEntity {
+
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> comments = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
