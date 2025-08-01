@@ -1,12 +1,12 @@
 package org.example.schedule.Controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedule.DTO.CommentRequestDto;
+import org.example.schedule.DTO.CommentResponseDto;
 import org.example.schedule.DTO.ScheduleRequestDto;
 import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Service.ScheduleService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +43,11 @@ public class ScheduleController {
 
         return ResponseEntity.ok("일정이 삭제되었습니다.");
 
+    }
+
+    @PostMapping("/schedules/{id}/comments")
+    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto) {
+        return scheduleService.createComment(id, commentRequestDto);
     }
 
 }
