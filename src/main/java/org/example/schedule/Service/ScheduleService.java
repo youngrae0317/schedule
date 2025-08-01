@@ -100,25 +100,4 @@ public class ScheduleService {
         scheduleRepository.delete(schedule);
     }
 
-    public CommentResponseDto createComment(Long id, CommentRequestDto requestDto) {
-        // ID로 일정을 Optional 객체로 받기
-        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
-
-        // 일정이 있는지 확인
-        if (!optionalSchedule.isPresent()) {
-            throw new IllegalArgumentException("Schedule with id " + id + " does not exist");
-        }
-
-        // 일정 존재하면 optionalSchedule 객체를 가져와 schedule 에 할당
-        Schedule schedule = optionalSchedule.get();
-
-        if (schedule.getComments().size() >= 10) {
-            throw new IllegalArgumentException("Comment is too large");
-        }
-
-        Comment comment = commentRepository.save(new Comment(requestDto, schedule));
-
-        return new CommentResponseDto(comment);
-
-    }
 }
