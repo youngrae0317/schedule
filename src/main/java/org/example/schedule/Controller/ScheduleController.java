@@ -8,6 +8,7 @@ import org.example.schedule.DTO.ScheduleResponseDto;
 import org.example.schedule.Repository.ScheduleRepository;
 import org.example.schedule.Service.CommentService;
 import org.example.schedule.Service.ScheduleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +21,23 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
-        return scheduleService.createSchedule(scheduleRequestDto);
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.createSchedule(scheduleRequestDto));
     }
 
     @GetMapping("/schedules")
-    public List<ScheduleResponseDto> getSchedules(@RequestParam(required = false) String name) {
-        return scheduleService.getSchedules(name);
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(scheduleService.getSchedules(name));
     }
 
     @GetMapping("/schedules/{id}")
-    public ScheduleResponseDto getSchedulesByID(@PathVariable Long id) {
-        return scheduleService.getScheduleById(id);
+    public ResponseEntity<ScheduleResponseDto> getSchedulesByID(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.getScheduleById(id));
     }
 
     @PutMapping("/schedules/{id}")
-    public ScheduleResponseDto updateSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto, @PathVariable Long id) {
-        return scheduleService.updateSchedule(id, scheduleRequestDto);
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto, @PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.updateSchedule(id, scheduleRequestDto));
     }
 
     @DeleteMapping("/schedules/{id}")
