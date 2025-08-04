@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     private final CommentService commentService;
 
+    /** 댓글 생성 (CREATE -> POST) **/
     @PostMapping("/schedules/{id}/comments")
     public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createComment(id, commentRequestDto));
