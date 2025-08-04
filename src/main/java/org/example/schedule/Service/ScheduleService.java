@@ -1,10 +1,7 @@
 package org.example.schedule.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.DTO.CommentRequestDto;
-import org.example.schedule.DTO.CommentResponseDto;
-import org.example.schedule.DTO.ScheduleRequestDto;
-import org.example.schedule.DTO.ScheduleResponseDto;
+import org.example.schedule.DTO.*;
 import org.example.schedule.Entity.Comment;
 import org.example.schedule.Entity.Schedule;
 import org.example.schedule.Repository.CommentRepository;
@@ -37,7 +34,7 @@ public class ScheduleService {
 
     }
 
-    public List<ScheduleResponseDto> getSchedules(String name) {
+    public List<ScheduleListResponseDto> getSchedules(String name) {
         List<Schedule> schedules;
 
         if (name == null) {
@@ -46,9 +43,10 @@ public class ScheduleService {
             schedules = scheduleRepository.findAllByNameOrderByModifiedAtDesc(name);
         }
 
-        return schedules.stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
+        return schedules.stream().map(ScheduleListResponseDto::new).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public ScheduleResponseDto getScheduleById(Long id) {
         // ID를 기준으로 일정을 Optional 객체로 받는다.
         Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
