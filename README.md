@@ -74,6 +74,7 @@
     "name": "string",
     "createdAt": "string",
     "modifiedAt": "string"
+    "comments": "string"
   }
   ```
 
